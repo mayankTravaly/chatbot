@@ -1,16 +1,34 @@
-# React + Vite
+# Hotel Chatbot AI Widget
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An intelligent, AI-powered hotel chatbot widget designed to be easily embedded into any hotel website. This project uses a **React + Vite** frontend widget that natively parses Markdown, and a **FastAPI + MongoDB + OpenAI** backend to handle natural language queries and database lookups via RAG (Retrieval-Augmented Generation).
 
-Currently, two official plugins are available:
+## 📂 Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This monorepo is divided into three main components:
 
-## React Compiler
+1. **`/backend`**: The Python FastAPI server. It provides the REST API (`/api/chat`) that connects to MongoDB and OpenAI. It handles data ingestion and intelligent function calling (searching for hotels, checking availability, etc.).
+2. **`/frontend`**: A React application built with Vite. It compiles down to a single `chatbot.iife.js` script that acts as an embeddable chat widget. It uses `react-markdown` to render human-like spacing, bold text, and bullet points.
+3. **`/widget-test`**: A simple static HTML website used to test the compiled widget in a production-like environment without needing React.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Quick Start Guide
 
-## Expanding the ESLint configuration
+### 1. Setup the Backend
+Navigate to the backend directory, configure your `.env` file with your `OPENAI_API_KEY` and `MONGO_URI`, and ingest the hotel data.
+```bash
+cd backend
+pip install -r requirements.txt
+python ingest_hotels_info.py  # Ingests the CSV data into MongoDB
+uvicorn main:app --reload --port 8000
+```
+*See `backend/README.md` for detailed backend instructions.*
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Build the Frontend Widget
+Navigate to the frontend directory to compile the React code into a single embeddable script.
+```bash
+cd frontend
+npm install
+npm run build
+```
+
+### 3. Test the Widget
+Simply open the `widget-test/index.html` file in your browser to see the widget running live on a dummy website!
